@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#d32f2f">
+        <meta name="description" content="AHP - Hệ thống hỗ trợ ra quyết định. Giao diện Việt hóa hiện đại.">
+        <title>AHP Decision Support</title>
+      
+        <!-- Google Font: Be Vietnam Pro -->
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+      
+        <!-- Favicon -->
+        <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Vietnam.svg" type="image/svg+xml">
+      
+        <!-- Thư viện JS -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom/dist/chartjs-plugin-zoom.min.js"></script>
+
+         <!--Dùng thư viện SheetJS-->
+        <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script> 
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        
+
+      </head>
+      
+<body>
+    <!-- Banner 
+    <div id="banner">Chúc mừng Ngày Giải phóng miền Nam - Thống nhất đất nước 30/4 !</div>
+
+        Popup 
+    <div id="popup">
+        <strong>Chúc mừng Ngày Giải phóng miền Nam 30/4!</strong><br>
+        <button onclick="closePopup()">Đóng</button>
+    </div>
+
+    <div style="text-align: center;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Vietnam.svg" alt="Cờ Việt Nam" class="vietnam-flag">
+    </div>
+    -->
+
+    <div class="header-container">
+        <h2>Hệ hỗ trợ ra quyết định AHP lựa chọn tai nghe</h2>
+      </div>
+      
+      <!-- Nhóm nhập số phương án và tiêu chí -->
+      <div class="input-controls">
+        <div class="input-row">
+          <div class="input-group">
+            <label for="numAlternatives">Số phương án:</label>
+            <input type="number" id="numAlternatives" min="2" max="10" value="3" />
+            <div class="error-message" id="alternativeError" style="color: red; font-size: 0.8em; margin-top: 5px;"></div>
+        </div>
+        <div class="input-group">
+            <label for="numCriteria">Số tiêu chí:</label>
+            <input type="number" id="numCriteria" min="2" max="10" value="3" />
+            <div class="error-message" id="criteriaError" style="color: red; font-size: 0.8em; margin-top: 5px;"></div>
+        </div>
+          <button class="btn-primary" onclick="generateInputs()">Tiếp tục</button>
+        </div>
+      </div>
+      
+      <!-- Nhập tên phương án và tiêu chí -->
+      <div id="namesContainer"></div>
+      
+      <!-- Nút nhập ma trận -->
+      <div class="action-center">
+        <button id="createMatrixBtn" class="btn-primary" onclick="generateEvaluationMatrix()" style="display:none;">
+          Nhập ma trận đánh giá
+        </button>
+      </div>
+
+      <!-- Ma trận tiêu chí và phương án -->
+      <div id="criteriaMatrixContainer"></div>
+
+      <!-- Nút kiểm tra CR tiêu chí-->
+
+      <div id="crCheckBtnContainer" class="action-center" style="display:none;">
+        <button class="btn-primary" onclick="checkCriteriaCR()">Kiểm tra CR tiêu chí</button>
+      </div>
+      <div id="crCheckResult"></div>
+
+      <div id="alternativeMatricesContainer"></div>
+      <!-- Nút kiểm tra CR cho các ma trận phương án -->
+      <div id="altCRCheckBtnContainer" class="action-center" style="display:none;">
+        <button class="btn-primary" onclick="checkAlternativeCR()">Kiểm tra CR phương án</button>
+      </div>
+      <!-- KHU VỰC RIÊNG CHO KẾT QUẢ CR PHƯƠNG ÁN -->
+      <div id="altCrCheckResult"></div>
+      
+
+      
+      <!-- Nút tính toán AHP -->
+      <div class="action-center">
+        <button class="btn-primary" onclick="calculateAHP()" id="calcBtn" style="display:none;">
+          Tính toán AHP
+        </button>
+      </div>
+      
+      <!-- Kết quả -->
+      <div id="result"></div>
+
+    <!--Nút xuất file Excel / PDF-->
+    <div class="action-center">
+
+    <!-- Nút tải Excel -->
+    <button id="exportExcelBtn" class="btn-primary" style="display:none;"
+    onclick="exportToExcel()">⬇ Xuất Excel</button>
+
+    <!-- Nút tải PDF -->
+    <button id="btnPDF" class="btn-primary" style="display:none;"
+    onclick="exportServerPDF()">⬇ Xuất PDF</button>
+
+  </div>
+
+
+
+</body>
+</html>

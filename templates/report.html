@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Báo cáo AHP</title>
+  <style>
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #333; padding: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Báo cáo kết quả AHP</h1>
+  <h2>Trọng số tiêu chí</h2>
+  <table>
+    <tr><th>Tiêu chí</th><th>Trọng số</th></tr>
+    {% for name, w in zip(criteria_names, criteria_weights) %}
+    <tr><td>{{name}}</td><td>{{'%.4f' % w}}</td></tr>
+    {% endfor %}
+  </table>
+
+  <h2>Điểm tổng hợp</h2>
+  <table>
+    <tr><th>Phương án</th><th>Điểm</th></tr>
+    {% for item in final_scores %}
+    <tr><td>{{item.alternative}}</td><td>{{'%.4f' % item.score}}</td></tr>
+    {% endfor %}
+  </table>
+</body>
+</html>
